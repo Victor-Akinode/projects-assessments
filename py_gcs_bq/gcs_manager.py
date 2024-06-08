@@ -1,20 +1,31 @@
+import os
 from google.cloud import storage
 
 class GCSManager:
     def __init__(self, client=None):
-        self.client = client or storage.Client()
-
-    def create_bucket(self, bucket_name):
-        bucket = self.client.bucket(bucket_name)
-        if not bucket.exists():
-            bucket = self.client.create_bucket(bucket_name)
-            print(f"Bucket {bucket_name} created.")
+        if client:
+            self.client = client
         else:
-            print(f"Bucket {bucket_name} already exists.")
-        return bucket
+            # Create a new GCS client if not provided
+            self.client = storage.Client()
 
-    def upload_json(self, bucket_name, source_data, destination_blob_name):
-        bucket = self.client.bucket(bucket_name)
-        blob = bucket.blob(destination_blob_name)
-        blob.upload_from_string(source_data, content_type='application/json')
-        print(f"Data uploaded to {destination_blob_name} in bucket {bucket_name}.")
+    def create_bucket(self, bucket_name, location='US'):
+        try:
+            bucket = self.client.create_bucket(bucket_name, location=location)
+            print(f"Bucket {bucket.name} created in {bucket.location}.")
+        except Exception as e:
+            print(f"Error creating bucket: {e}")
+
+    def upload_bytes(self, bucket_name, bytes_data, blob_name):
+        try:
+            bucket = self.client.get_bucket(bucket_name)
+            blob = bucket.blob(blob_name)
+            blob.upload_from_file(BytesIO(bytes_data), content_type="application/json")
+            print(f"Uploaded bytes data to {blob_name} in {bucket_name}.")
+        except Exception as e:
+            print(f"Error uploading bytes data to GCS: {e}")
+
+def get_gcs_client():
+    # Set up GCS client
+    return storage.Client()
+

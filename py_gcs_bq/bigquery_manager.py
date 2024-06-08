@@ -4,15 +4,17 @@ class BigQueryManager:
     def __init__(self, client=None):
         self.client = client or bigquery.Client()
 
-    def create_dataset(self, dataset_id):
-        dataset_ref = bigquery.Dataset(dataset_id)
+    def create_dataset(self, dataset_id, location='US'):
+        dataset_ref = self.client.dataset(dataset_id)
+        dataset = bigquery.Dataset(dataset_ref)
+        dataset.location = location
         try:
             self.client.get_dataset(dataset_ref)
-            print(f"Dataset {dataset_id} already exists.")
+            print(f"Dataset {dataset_id} already exists in {location}.")
         except:
-            dataset = self.client.create_dataset(dataset_ref)
-            print(f"Dataset {dataset_id} created.")
-            return dataset
+            dataset = self.client.create_dataset(dataset)
+            print(f"Dataset {dataset_id} created in {location}.")
+        return dataset
 
     def load_csv_to_table(self, dataset_id, table_id, source_file_name):
         table_ref = self.client.dataset(dataset_id).table(table_id)

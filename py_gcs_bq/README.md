@@ -1,13 +1,21 @@
 ###PROJECT STRUCTURE
 
 py_gcs_bq/
+│
+├── data/
+│   └── sample_data.csv
+│
+├── schemas/
+│   └── schema.json
+│
+├── .env
 ├── .env.example
 ├── config.py
 ├── gcs_manager.py
 ├── bigquery_manager.py
 ├── api_loader.py
 ├── main.py
-├── README.md
+└── README.md
 
 
 # GCP Data Manager
