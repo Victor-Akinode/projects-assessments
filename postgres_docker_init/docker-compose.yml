@@ -4,10 +4,8 @@ services:
   postgres:
     image: postgres:latest
     container_name: postgres_service
-    environment:
-      POSTGRES_USER: victor_akinode_altschool
-      POSTGRES_PASSWORD: VictorPassword1
-      POSTGRES_DB: victor_akinode_db
+    env_file:
+      - credentials.env
     ports:
       - "5434:5432"
     volumes:

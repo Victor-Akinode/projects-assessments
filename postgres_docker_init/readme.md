@@ -17,7 +17,7 @@ This project demonstrates how to set up a PostgreSQL database using Docker. It i
 ### Prerequisites
 
 - Docker and Docker Compose installed on your machine
-- Python 3.x installed
+- Python 3 installed
 
 ### Steps
 
