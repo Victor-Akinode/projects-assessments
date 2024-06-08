@@ -2,4 +2,4 @@
 *.env
 
 # Ignore credentials.env inside postgres_docker_init directory
-postgres_docker_init/credentials.env
+credentials.env
